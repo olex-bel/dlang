@@ -31,6 +31,7 @@
     <itemPath>lexer.h</itemPath>
     <itemPath>struct.l</itemPath>
     <itemPath>struct_def.h</itemPath>
+    <itemPath>type_table.h</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>

@@ -12,6 +12,8 @@ enum {
     ID = 1,
     TYPE,
     CLASS,
+    INT,
+    STRING,
     LEFT_CBRACE,
     RIGHT_CBRACE,
     SEMICOLON

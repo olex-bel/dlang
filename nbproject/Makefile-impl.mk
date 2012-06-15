@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=struct
+PROJECTNAME=dlang
 
 # Active Configuration
 DEFAULTCONF=Debug

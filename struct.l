@@ -12,6 +12,8 @@ WS	[ \r\n\t]+
 
 {WS}		{ /* White space, nothing to do */ }
 "class"         {   return CLASS; }
+"int"           {   return INT; }
+"string"        {   return STRING; }
 {ID}		{
 			yylval = globalLexTable->addId(yylineno, yytext); 
 			return ID; 

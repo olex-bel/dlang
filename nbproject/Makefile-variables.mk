@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=GNU-Linux-x86
 CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-Linux-x86
-CND_ARTIFACT_NAME_Debug=struct
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux-x86/struct
+CND_ARTIFACT_NAME_Debug=dlang
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux-x86/dlang
 CND_PACKAGE_DIR_Debug=dist/Debug/GNU-Linux-x86/package
-CND_PACKAGE_NAME_Debug=struct.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux-x86/package/struct.tar
+CND_PACKAGE_NAME_Debug=dlang.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux-x86/package/dlang.tar
 # Release configuration
 CND_PLATFORM_Release=GNU-Linux-x86
 CND_ARTIFACT_DIR_Release=dist/Release/GNU-Linux-x86
-CND_ARTIFACT_NAME_Release=struct
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux-x86/struct
+CND_ARTIFACT_NAME_Release=dlang
+CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux-x86/dlang
 CND_PACKAGE_DIR_Release=dist/Release/GNU-Linux-x86/package
-CND_PACKAGE_NAME_Release=struct.tar
-CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux-x86/package/struct.tar
+CND_PACKAGE_NAME_Release=dlang.tar
+CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux-x86/package/dlang.tar
 #
 # include compiler specific variables
 #
