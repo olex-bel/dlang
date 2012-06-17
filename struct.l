@@ -3,8 +3,10 @@
 %{
 #include "struct_def.h"
 #include "lex_table.h"
+#include "type_table.h"
 %}
 
+INT     [0-9]+
 ID	[a-zA-Z_][a-zA-Z0-9]*
 WS	[ \r\n\t]+
 
@@ -12,15 +14,30 @@ WS	[ \r\n\t]+
 
 {WS}		{ /* White space, nothing to do */ }
 "class"         {   return CLASS; }
-"int"           {   return INT; }
-"string"        {   return STRING; }
+"int"           {   
+                    yylval = ValueInfo::VINT32;
+                    return TYPE; 
+                }
+"string"        {   
+                    yylval = ValueInfo::VSTRING;
+                    return TYPE; 
+                }
 {ID}		{
 			yylval = globalLexTable->addId(yylineno, yytext); 
 			return ID; 
 		}
+{INT}           {   
+                        yylval = globalLexTable->addNumber(yylineno, yytext); 
+                        return INT;
+                }
 "{"             {   return LEFT_CBRACE; }
 "}"             {   return RIGHT_CBRACE; }
 ";"             {   return SEMICOLON; }
+"="             {   return ASSIGNMENT; }
+"'".*"'"        {   
+                        yylval = globalLexTable->addString(yylineno, yytext); 
+                        return STRING; 
+                }
 "//".*		{ /* One line comment, nothing to do */ }
 
 %%

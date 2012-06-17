@@ -27,7 +27,14 @@ int LexemTable::addId(int lineno, char* text)
 	return add(lineno, text, Lexeme::ID);
 }
 
-int LexemTable::add(int lineno, char* text, Lexeme::LexType type)
+int LexemTable::addString(int lineno, char* text)
+{
+    std::string str = text;
+    
+    return add(lineno, str.substr(1, str.size() - 2), Lexeme::STRING);
+}
+
+int LexemTable::add(int lineno, const std::string&  text, Lexeme::LexType type)
 {
 	Lexeme lex;
 

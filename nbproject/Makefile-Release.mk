@@ -35,8 +35,10 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/strutil.o \
 	${OBJECTDIR}/lex_table.o \
-	${OBJECTDIR}/lex.yy.o
+	${OBJECTDIR}/lex.yy.o \
+	${OBJECTDIR}/type_table.o
 
 
 # C Compiler Flags
@@ -68,6 +70,11 @@ ${OBJECTDIR}/main.o: main.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
 
+${OBJECTDIR}/strutil.o: strutil.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/strutil.o strutil.cpp
+
 ${OBJECTDIR}/lex_table.o: lex_table.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -77,6 +84,11 @@ ${OBJECTDIR}/lex.yy.o: lex.yy.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.c) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/lex.yy.o lex.yy.c
+
+${OBJECTDIR}/type_table.o: type_table.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/type_table.o type_table.cpp
 
 # Subprojects
 .build-subprojects:

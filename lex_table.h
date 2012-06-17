@@ -12,7 +12,7 @@
 #include <vector>
 
 struct Lexeme{
-	enum LexType {NUMBER, ID};
+	enum LexType {NUMBER, ID, STRING};
 
 	int lineno;
 	LexType type;
@@ -24,12 +24,13 @@ class LexemTable{
 	enum { LEX_NUM = 200 };
 
 	std::vector<Lexeme> table;
-	int add(int lineno, char* text, Lexeme::LexType type);
+	int add(int lineno, const std::string& text, Lexeme::LexType type);
 
 public:
 	LexemTable();
 	int addNumber(int lineno, char* text);
 	int addId(int lineno, char* text);
+        int addString(int lineno, char* text);
 	Lexeme operator[](size_t indx) const;
 };
 
