@@ -17,6 +17,7 @@ class AbstractValue {
 public:
     virtual int type() = 0;
     virtual std::string toString() const = 0;
+    virtual void copyData(AbstractValue* val) = 0;
 };
 
 struct ValueInfo{
@@ -31,6 +32,7 @@ class Int32Value: public AbstractValue
     int32_t data;
     
 public:
+    virtual void copyData(AbstractValue* val);
     void setValue(int32_t num) { data = num; };
     int32_t value() { return data; };
     virtual int type() { return ValueInfo::VINT32; };
@@ -45,6 +47,7 @@ class StringValue: public AbstractValue
     std::string data;
     
 public:
+    virtual void copyData(AbstractValue* val);
     void setValue(std::string str) { data = str; };
     std::string value() { return data; };
     virtual int type() { return ValueInfo::VSTRING; };

@@ -20,6 +20,7 @@ TypeTable* globalTypeTable;
 void typeDef();
 void assigmnent(std::string id);
 void identifier();
+void assign(std::string id1, std::string id2);
 
 int main(int argc, char** argv) {
 
@@ -96,7 +97,7 @@ void assigmnent(std::string id)
         }
         break;
         case ID:{
-            
+            assign(id, (*globalLexTable)[yylval].text);
         }
         break;
         default:
@@ -114,8 +115,5 @@ void assign(std::string id1, std::string id2)
     ValueInfo vinf_left = globalTypeTable->value(id1);
     ValueInfo vinf_right = globalTypeTable->value(id2);
     
-    if ( vinf_left.type != vinf_right.type )
-        throw "Variable must be the same type";
-            
-            
+    vinf_left.value->copyData(vinf_right.value);
 }
