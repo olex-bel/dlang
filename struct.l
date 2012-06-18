@@ -15,11 +15,11 @@ WS	[ \r\n\t]+
 {WS}		{ /* White space, nothing to do */ }
 "class"         {   return CLASS; }
 "int"           {   
-                    yylval = ValueInfo::VINT32;
+                    yylval = VINT32;
                     return TYPE; 
                 }
 "string"        {   
-                    yylval = ValueInfo::VSTRING;
+                    yylval = VSTRING;
                     return TYPE; 
                 }
 {ID}		{

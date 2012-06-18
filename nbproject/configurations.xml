@@ -25,6 +25,8 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>ValueTable.cpp</itemPath>
+    <itemPath>ValueTable.h</itemPath>
     <itemPath>lex.yy.c</itemPath>
     <itemPath>lex_table.cpp</itemPath>
     <itemPath>lex_table.h</itemPath>
@@ -35,6 +37,10 @@
     <itemPath>strutil.h</itemPath>
     <itemPath>type_table.cpp</itemPath>
     <itemPath>type_table.h</itemPath>
+    <itemPath>types.cpp</itemPath>
+    <itemPath>types.h</itemPath>
+    <itemPath>values.cpp</itemPath>
+    <itemPath>values.h</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>

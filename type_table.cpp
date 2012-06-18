@@ -1,52 +1,20 @@
 #include "type_table.h"
+#include <iostream>
 
-bool TypeTable::add(std::string id, ValueInfo::ValueType type)
+TypeTable::TypeTable()
 {
-    bool result; 
+    table["int"] = new Int32Type();
+    table["string"] = new StringType();
+}
+
+AbstractType* TypeTable::prototype(std::string name)
+{
+    TableStore::iterator it;
+    AbstractType* type = 0;
     
-    if ( (result = (table.find(id) == table.end())) ){
-        ValueInfo vinf;
-        
-        vinf.type = type;
-        switch ( type ){
-            case ValueInfo::VINT32:
-                vinf.value = new Int32Value();
-                break;
-            case ValueInfo::VSTRING:
-                vinf.value = new StringValue();
-                break;
-        }
-        
-        table[id] = vinf;
+    if ( table.find(name) != table.end() ){ 
+        type = table[name];
     }
     
-    return result;
-}
-
-bool TypeTable::exists(std::string id)
-{
-    return table.find(id) != table.end();
-}
-
-ValueInfo TypeTable::value(std::string id)
-{
-    return table[id];
-}
-
-void Int32Value::copyData(AbstractValue* val)
-{
-    if ( this->type() != val->type() )
-        throw "Variable must be the same type";
-    
-    Int32Value* intVal = dynamic_cast<Int32Value*>(val);
-    setValue(intVal->value());
-}
-
-void StringValue::copyData(AbstractValue* val)
-{
-    if ( this->type() != val->type() )
-        throw "Variable must be the same type";
-    
-    StringValue* strVal = dynamic_cast<StringValue*>(val);
-    setValue(strVal->value());
+    return type;
 }

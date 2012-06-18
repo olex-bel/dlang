@@ -797,7 +797,7 @@ case 3:
 YY_RULE_SETUP
 #line 17 "struct.l"
 {   
-                    yylval = ValueInfo::VINT32;
+                    yylval = VINT32;
                     return TYPE; 
                 }
 	YY_BREAK
@@ -805,7 +805,7 @@ case 4:
 YY_RULE_SETUP
 #line 21 "struct.l"
 {   
-                    yylval = ValueInfo::VSTRING;
+                    yylval = VSTRING;
                     return TYPE; 
                 }
 	YY_BREAK

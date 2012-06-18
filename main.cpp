@@ -10,12 +10,14 @@
 #include "lex_table.h"
 #include "lexer.h"
 #include "type_table.h"
+#include "ValueTable.h"
 #include "struct_def.h"
 #include "strutil.h"
 
 int yylval;
 LexemTable* globalLexTable;
 TypeTable* globalTypeTable;
+ValueTable* globalValueTable;
 
 void typeDef();
 void assigmnent(std::string id);
@@ -28,6 +30,7 @@ int main(int argc, char** argv) {
     
     globalLexTable = new LexemTable();
     globalTypeTable = new TypeTable();
+    globalValueTable = new ValueTable();
     
     try{
         while ( (lex = yylex()) != 0 ){
@@ -46,11 +49,17 @@ int main(int argc, char** argv) {
 
 void typeDef()
 {
-    ValueInfo::ValueType type = static_cast<ValueInfo::ValueType>(yylval);
+    AbstractType* type = globalTypeTable->prototype(yytext);
+    
+    if ( !type )
+        throw "Unknow type";
+    
     int lex = yylex();
     if ( lex != ID ) throw "Must be identifier";
-    if ( !globalTypeTable->add((*globalLexTable)[yylval].text, type) )
+    
+    if ( !globalValueTable->add((*globalLexTable)[yylval].text, type) )
         throw "Redefinition of an identifier";
+    
     lex = yylex();
     if ( lex != SEMICOLON ) throw "; expected";
 }
@@ -59,15 +68,15 @@ void identifier()
 {
     std::string id = (*globalLexTable)[yylval].text;
     
-    if ( !globalTypeTable->exists(id) ) throw "Undefined identifier";
+    if ( !globalValueTable->exists(id) ) throw "Undefined identifier";
             
     switch ( yylex() ){
         case ASSIGNMENT:
             assigmnent(id);
             break;
         case SEMICOLON:{
-            ValueInfo vinf = globalTypeTable->value(id);
-            std::cout << vinf.value->toString() << std::endl;
+            AbstractValue* vinf = globalValueTable->value(id);
+            std::cout << vinf->toString() << std::endl;
         }
             break;
         
@@ -85,14 +94,14 @@ void assigmnent(std::string id)
             if ( !str2int(num, (*globalLexTable)[yylval].text) )
                 throw "Error int convertion";
             
-            ValueInfo vinf = globalTypeTable->value(id);
-            Int32Value* val = dynamic_cast<Int32Value*>(vinf.value);
+            AbstractValue* vinf = globalValueTable->value(id);
+            Int32Value* val = dynamic_cast<Int32Value*>(vinf);
             val->setValue(num);
         }       
         break;
         case STRING:{
-            ValueInfo vinf = globalTypeTable->value(id);
-            StringValue* val = dynamic_cast<StringValue*>(vinf.value);
+            AbstractValue* vinf = globalValueTable->value(id);
+            StringValue* val = dynamic_cast<StringValue*>(vinf);
             val->setValue((*globalLexTable)[yylval].text);
         }
         break;
@@ -109,11 +118,11 @@ void assigmnent(std::string id)
 
 void assign(std::string id1, std::string id2)
 {
-    if ( !globalTypeTable->exists(id1) || !globalTypeTable->exists(id2) )
+    if ( !globalValueTable->exists(id1) || !globalValueTable->exists(id2) )
         throw "Undefined identifier";
     
-    ValueInfo vinf_left = globalTypeTable->value(id1);
-    ValueInfo vinf_right = globalTypeTable->value(id2);
+    AbstractValue* vinf_left = globalValueTable->value(id1);
+    AbstractValue* vinf_right = globalValueTable->value(id2);
     
-    vinf_left.value->copyData(vinf_right.value);
+    vinf_left->copyData(vinf_right);
 }
