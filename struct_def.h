@@ -16,8 +16,14 @@ enum {
     STRING,
     LEFT_CBRACE,
     RIGHT_CBRACE,
+    LP,
+    RP,
     SEMICOLON,
-    ASSIGNMENT
+    ASSIGNMENT,
+    MINUS,
+    PLUS,
+    MUL,
+    DIV
 };
 
 extern int yylval;

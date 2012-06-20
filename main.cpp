@@ -18,11 +18,16 @@ int yylval;
 LexemTable* globalLexTable;
 TypeTable* globalTypeTable;
 ValueTable* globalValueTable;
+int curr_tok;
 
 void typeDef();
 void assigmnent(std::string id);
 void identifier();
 void assign(std::string id1, std::string id2);
+
+AbstractValue* expr(bool get);
+AbstractValue* term(bool get);
+AbstractValue* prim(bool get);
 
 int main(int argc, char** argv) {
 
@@ -125,4 +130,99 @@ void assign(std::string id1, std::string id2)
     AbstractValue* vinf_right = globalValueTable->value(id2);
     
     vinf_left->copyData(vinf_right);
+}
+
+AbstractValue* expr(bool get)
+{
+    AbstractValue *result;
+    
+    result = term(get);
+    
+    for (;;){
+        switch ( curr_tok ){
+            case PLUS:
+                break;
+            case MINUS:
+                break;
+            default:
+                return result;
+        }
+    }
+}
+
+AbstractValue* term(bool get)
+{
+    AbstractValue *result;
+    
+    result = prim(get);
+    for(;;){
+        switch ( curr_tok ){
+            case MUL:
+                break;
+            case DIV:
+                break;
+            default:
+                return result;
+        }
+                
+    }
+}
+
+AbstractValue* prim(bool get)
+{    
+    AbstractValue *result;
+    
+    if ( get ) curr_tok = yylex();
+    
+    switch ( curr_tok ){
+        case INT:
+        {
+            int32_t num;
+            
+            if ( !str2int(num, (*globalLexTable)[yylval].text) )
+                throw "Error int convertion";
+            
+            AbstractType* type = globalTypeTable->prototype("int");
+            result = type->create();
+            ((Int32Value*)result)->setValue(num);
+        }
+            break;
+        case STRING:
+        {
+            AbstractType* type = globalTypeTable->prototype("string");
+            result = type->create();
+            ((StringValue*)result)->setValue((*globalLexTable)[yylval].text);
+        }
+            break;
+        case ID:
+        {
+            std::string id = (*globalLexTable)[yylval].text;
+            if ( !globalValueTable->exists(id) )
+                throw "Undefined identifier";
+            
+            result =  globalValueTable->value(id);
+            if (( curr_tok = yylex()) == ASSIGNMENT ) {
+                AbstractValue *val = expr(true);
+                AbstractMethod* method = result->getMethod("operator=");
+                method->setParam(1, result);
+                method->setParam(2, val);
+                (*method)();
+                delete val;
+            }
+        }
+            break;
+        case MINUS:
+            result = prim(true);
+            // call method unary-
+            break;
+        case LP:
+            result = expr(true);
+            if ( curr_tok != RP ) throw "Expected ')'";
+            curr_tok = yylex();
+            break;
+        default:
+            throw "Primary expected";
+    }
+    
+    return result;
 }

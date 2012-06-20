@@ -34,6 +34,9 @@ WS	[ \r\n\t]+
 "}"             {   return RIGHT_CBRACE; }
 ";"             {   return SEMICOLON; }
 "="             {   return ASSIGNMENT; }
+"-"             {   return MINUS; }
+"("             {   return LP; }
+")"             {   return RP; }
 "'".*"'"        {   
                         yylval = globalLexTable->addString(yylineno, yytext); 
                         return STRING; 

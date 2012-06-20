@@ -10,14 +10,21 @@
 
 #include <stdint.h>
 #include <boost/lexical_cast.hpp>
+#include <map>
+#include <string>
+#include "method.h"
 
 enum ValueType { VINT32, VSTRING };
 
 class AbstractValue {
+protected:
+    std::map<std::string, AbstractMethod*> methods;
+    
 public:
     virtual ValueType type() = 0;
     virtual std::string toString() const = 0;
     virtual void copyData(AbstractValue* val) = 0;
+    virtual AbstractMethod* getMethod(std::string name);
 };
 
 class Int32Value: public AbstractValue
@@ -25,6 +32,7 @@ class Int32Value: public AbstractValue
     int32_t data;
     
 public:
+    Int32Value();
     virtual void copyData(AbstractValue* val);
     void setValue(int32_t num) { data = num; };
     int32_t value() { return data; };
@@ -48,6 +56,16 @@ public:
     {
         return data;
     };
+};
+
+class AssigmnentInt32: public AbstractMethod
+{
+    Int32Value* left;
+    Int32Value* right;
+    
+public:
+    virtual AbstractValue* operator()();
+    virtual void setParam(size_t num, AbstractValue* value);
 };
 
 #endif	/* VALUES_H */
