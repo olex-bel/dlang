@@ -30,11 +30,13 @@ WS	[ \r\n\t]+
                         yylval = globalLexTable->addNumber(yylineno, yytext); 
                         return INT;
                 }
+"!"             {   return PRINT;   }
 "{"             {   return LEFT_CBRACE; }
 "}"             {   return RIGHT_CBRACE; }
 ";"             {   return SEMICOLON; }
 "="             {   return ASSIGNMENT; }
 "-"             {   return MINUS; }
+"+"             {   return PLUS; }
 "("             {   return LP; }
 ")"             {   return RP; }
 "'".*"'"        {   

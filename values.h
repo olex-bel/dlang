@@ -68,5 +68,36 @@ public:
     virtual void setParam(size_t num, AbstractValue* value);
 };
 
+class UnaryMinusInt32: public AbstractMethod
+{
+    Int32Value* val;
+    
+public:
+    virtual AbstractValue* operator()();
+    virtual void setParam(size_t num, AbstractValue* value);
+};
+
+class AddInt32: public AbstractMethod
+{
+    Int32Value* left;
+    Int32Value* right;
+    
+public:
+    virtual AbstractValue* operator()();
+    virtual void setParam(size_t num, AbstractValue* value);
+};
+
+/*
+class SubInt32: public AbstractMethod
+{
+    Int32Value* left;
+    Int32Value* right;
+    
+public:
+    virtual AbstractValue* operator()();
+    virtual void setParam(size_t num, AbstractValue* value);
+};
+*/
+
 #endif	/* VALUES_H */
 

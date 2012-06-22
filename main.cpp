@@ -13,6 +13,7 @@
 #include "ValueTable.h"
 #include "struct_def.h"
 #include "strutil.h"
+#include <boost/shared_ptr.hpp>
 
 int yylval;
 LexemTable* globalLexTable;
@@ -20,27 +21,39 @@ TypeTable* globalTypeTable;
 ValueTable* globalValueTable;
 int curr_tok;
 
-void typeDef();
-void assigmnent(std::string id);
-void identifier();
-void assign(std::string id1, std::string id2);
-
+void def_var();
+void print_var();
 AbstractValue* expr(bool get);
 AbstractValue* term(bool get);
 AbstractValue* prim(bool get);
 
 int main(int argc, char** argv) {
-
-    int lex;
     
     globalLexTable = new LexemTable();
     globalTypeTable = new TypeTable();
     globalValueTable = new ValueTable();
     
     try{
-        while ( (lex = yylex()) != 0 ){
-                if ( lex == TYPE ) typeDef();
-                if ( lex == ID ) identifier();
+        while ( (curr_tok = yylex()) != 0 ){
+            switch ( curr_tok ){
+                case TYPE:
+                    def_var();
+                    break;
+                case ID:
+                    expr(false);
+                    break;
+                case PRINT:                
+                    print_var();
+                    break;
+            }
+                    
+            if ( curr_tok != SEMICOLON ){
+                curr_tok = yylex();
+                if ( curr_tok != SEMICOLON ){
+                        std::cout << curr_tok << std::endl;
+                        throw "; expected";
+                }
+            }      
         }
     }catch(const char* s){
         std::cout << s << std::endl;
@@ -52,84 +65,29 @@ int main(int argc, char** argv) {
     return 0;
 }
 
-void typeDef()
+void print_var()
+{
+    curr_tok = yylex();
+    if ( curr_tok != ID ) throw "Must be identifier";
+    
+    AbstractValue *val = globalValueTable->value((*globalLexTable)[yylval].text);
+    if ( val )
+        std::cout << val->toString() << std::endl;
+}
+
+void def_var()
 {
     AbstractType* type = globalTypeTable->prototype(yytext);
     
     if ( !type )
         throw "Unknow type";
     
-    int lex = yylex();
-    if ( lex != ID ) throw "Must be identifier";
+    curr_tok = yylex();
+    if ( curr_tok != ID ) throw "Must be identifier";
     
     if ( !globalValueTable->add((*globalLexTable)[yylval].text, type) )
         throw "Redefinition of an identifier";
-    
-    lex = yylex();
-    if ( lex != SEMICOLON ) throw "; expected";
-}
-
-void identifier()
-{
-    std::string id = (*globalLexTable)[yylval].text;
-    
-    if ( !globalValueTable->exists(id) ) throw "Undefined identifier";
-            
-    switch ( yylex() ){
-        case ASSIGNMENT:
-            assigmnent(id);
-            break;
-        case SEMICOLON:{
-            AbstractValue* vinf = globalValueTable->value(id);
-            std::cout << vinf->toString() << std::endl;
-        }
-            break;
-        
-        default:
-            throw "Unknow operation";
-    }
-}
-
-void assigmnent(std::string id)
-{
-    switch ( yylex() ){
-        case INT:{
-            int32_t num;
-            
-            if ( !str2int(num, (*globalLexTable)[yylval].text) )
-                throw "Error int convertion";
-            
-            AbstractValue* vinf = globalValueTable->value(id);
-            Int32Value* val = dynamic_cast<Int32Value*>(vinf);
-            val->setValue(num);
-        }       
-        break;
-        case STRING:{
-            AbstractValue* vinf = globalValueTable->value(id);
-            StringValue* val = dynamic_cast<StringValue*>(vinf);
-            val->setValue((*globalLexTable)[yylval].text);
-        }
-        break;
-        case ID:{
-            assign(id, (*globalLexTable)[yylval].text);
-        }
-        break;
-        default:
-            throw "Invalid rvalue";
-    }
-    
-    if ( yylex() != SEMICOLON ) throw "; expected";
-}
-
-void assign(std::string id1, std::string id2)
-{
-    if ( !globalValueTable->exists(id1) || !globalValueTable->exists(id2) )
-        throw "Undefined identifier";
-    
-    AbstractValue* vinf_left = globalValueTable->value(id1);
-    AbstractValue* vinf_right = globalValueTable->value(id2);
-    
-    vinf_left->copyData(vinf_right);
+   
 }
 
 AbstractValue* expr(bool get)
@@ -141,6 +99,13 @@ AbstractValue* expr(bool get)
     for (;;){
         switch ( curr_tok ){
             case PLUS:
+            {
+                AbstractMethod* method = result->getMethod("operator+");
+                AbstractValue *right = term(true);
+                method->setParam(1, result);
+                method->setParam(2, right);
+                result = (*method)();
+            }
                 break;
             case MINUS:
                 break;
@@ -185,6 +150,7 @@ AbstractValue* prim(bool get)
             AbstractType* type = globalTypeTable->prototype("int");
             result = type->create();
             ((Int32Value*)result)->setValue(num);
+            curr_tok = yylex();
         }
             break;
         case STRING:
@@ -207,13 +173,16 @@ AbstractValue* prim(bool get)
                 method->setParam(1, result);
                 method->setParam(2, val);
                 (*method)();
-                delete val;
             }
         }
             break;
         case MINUS:
+        {
             result = prim(true);
-            // call method unary-
+            AbstractMethod* method = result->getMethod("operator-u");
+            method->setParam(1, result);
+            (*method)();
+        }
             break;
         case LP:
             result = expr(true);

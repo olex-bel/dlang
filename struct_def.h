@@ -23,7 +23,8 @@ enum {
     MINUS,
     PLUS,
     MUL,
-    DIV
+    DIV,
+    PRINT
 };
 
 extern int yylval;
