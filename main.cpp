@@ -23,9 +23,9 @@ int curr_tok;
 
 void def_var();
 void print_var();
-AbstractValue* expr(bool get);
-AbstractValue* term(bool get);
-AbstractValue* prim(bool get);
+boost::shared_ptr<AbstractValue> expr(bool get);
+boost::shared_ptr<AbstractValue> term(bool get);
+boost::shared_ptr<AbstractValue> prim(bool get);
 
 int main(int argc, char** argv) {
     
@@ -90,9 +90,9 @@ void def_var()
    
 }
 
-AbstractValue* expr(bool get)
+boost::shared_ptr<AbstractValue> expr(bool get)
 {
-    AbstractValue *result;
+    boost::shared_ptr<AbstractValue> result;
     
     result = term(get);
     
@@ -101,13 +101,20 @@ AbstractValue* expr(bool get)
             case PLUS:
             {
                 AbstractMethod* method = result->getMethod("operator+");
-                AbstractValue *right = term(true);
-                method->setParam(1, result);
-                method->setParam(2, right);
+                boost::shared_ptr<AbstractValue> right = term(true);
+                method->setParam(1, result.get());
+                method->setParam(2, right.get());
                 result = (*method)();
             }
                 break;
             case MINUS:
+            {
+                AbstractMethod* method = result->getMethod("operator-");
+                boost::shared_ptr<AbstractValue> right = term(true);
+                method->setParam(1, result.get());
+                method->setParam(2, right.get());
+                result = (*method)();
+            }
                 break;
             default:
                 return result;
@@ -115,16 +122,30 @@ AbstractValue* expr(bool get)
     }
 }
 
-AbstractValue* term(bool get)
+boost::shared_ptr<AbstractValue> term(bool get)
 {
-    AbstractValue *result;
+    boost::shared_ptr<AbstractValue> result;
     
     result = prim(get);
     for(;;){
         switch ( curr_tok ){
             case MUL:
+            {
+                AbstractMethod* method = result->getMethod("operator*");
+                boost::shared_ptr<AbstractValue> right = prim(true);
+                method->setParam(1, result.get());
+                method->setParam(2, right.get());
+                result = (*method)();
+            }
                 break;
             case DIV:
+            {
+                AbstractMethod* method = result->getMethod("operator/");
+                boost::shared_ptr<AbstractValue> right = prim(true);
+                method->setParam(1, result.get());
+                method->setParam(2, right.get());
+                result = (*method)();
+            }
                 break;
             default:
                 return result;
@@ -133,9 +154,9 @@ AbstractValue* term(bool get)
     }
 }
 
-AbstractValue* prim(bool get)
+boost::shared_ptr<AbstractValue> prim(bool get)
 {    
-    AbstractValue *result;
+    boost::shared_ptr<AbstractValue> result;
     
     if ( get ) curr_tok = yylex();
     
@@ -148,16 +169,16 @@ AbstractValue* prim(bool get)
                 throw "Error int convertion";
             
             AbstractType* type = globalTypeTable->prototype("int");
-            result = type->create();
-            ((Int32Value*)result)->setValue(num);
+            result = boost::shared_ptr<AbstractValue>(type->create());
+            ((Int32Value*)result.get())->setValue(num);
             curr_tok = yylex();
         }
             break;
         case STRING:
         {
             AbstractType* type = globalTypeTable->prototype("string");
-            result = type->create();
-            ((StringValue*)result)->setValue((*globalLexTable)[yylval].text);
+            result = boost::shared_ptr<AbstractValue>(type->create());
+            ((StringValue*)result.get())->setValue((*globalLexTable)[yylval].text);
         }
             break;
         case ID:
@@ -166,22 +187,24 @@ AbstractValue* prim(bool get)
             if ( !globalValueTable->exists(id) )
                 throw "Undefined identifier";
             
-            result =  globalValueTable->value(id);
+            AbstractValue* value = globalValueTable->value(id);
+            
             if (( curr_tok = yylex()) == ASSIGNMENT ) {
-                AbstractValue *val = expr(true);
-                AbstractMethod* method = result->getMethod("operator=");
-                method->setParam(1, result);
-                method->setParam(2, val);
-                (*method)();
-            }
+                boost::shared_ptr<AbstractValue> val = expr(true);
+                AbstractMethod* method = value->getMethod("operator=");
+                method->setParam(1, value);
+                method->setParam(2, val.get());
+                result = (*method)();
+            } else
+                result = value->clone();
         }
             break;
         case MINUS:
         {
             result = prim(true);
-            AbstractMethod* method = result->getMethod("operator-u");
-            method->setParam(1, result);
-            (*method)();
+            AbstractMethod* method = result.get()->getMethod("operator-u");
+            method->setParam(1, result.get());
+            result = (*method)();
         }
             break;
         case LP:

@@ -10,6 +10,7 @@
 
 #include <stdint.h>
 #include <boost/lexical_cast.hpp>
+#include <boost/shared_ptr.hpp>
 #include <map>
 #include <string>
 #include "method.h"
@@ -24,6 +25,8 @@ public:
     virtual ValueType type() = 0;
     virtual std::string toString() const = 0;
     virtual void copyData(AbstractValue* val) = 0;
+    virtual void setVal(AbstractValue* val) = 0;
+    virtual boost::shared_ptr<AbstractValue> clone() = 0;
     virtual AbstractMethod* getMethod(std::string name);
 };
 
@@ -41,6 +44,8 @@ public:
     {
         return boost::lexical_cast<std::string>(data);
     };
+    virtual void setVal(AbstractValue* val);
+    virtual boost::shared_ptr<AbstractValue> clone();
 };
 
 class StringValue: public AbstractValue
@@ -56,6 +61,8 @@ public:
     {
         return data;
     };
+    virtual void setVal(AbstractValue* val);
+    virtual boost::shared_ptr<AbstractValue> clone();
 };
 
 class AssigmnentInt32: public AbstractMethod
@@ -64,7 +71,7 @@ class AssigmnentInt32: public AbstractMethod
     Int32Value* right;
     
 public:
-    virtual AbstractValue* operator()();
+    virtual boost::shared_ptr<AbstractValue> operator()();
     virtual void setParam(size_t num, AbstractValue* value);
 };
 
@@ -73,7 +80,7 @@ class UnaryMinusInt32: public AbstractMethod
     Int32Value* val;
     
 public:
-    virtual AbstractValue* operator()();
+    virtual boost::shared_ptr<AbstractValue> operator()();
     virtual void setParam(size_t num, AbstractValue* value);
 };
 
@@ -83,21 +90,41 @@ class AddInt32: public AbstractMethod
     Int32Value* right;
     
 public:
-    virtual AbstractValue* operator()();
+    virtual boost::shared_ptr<AbstractValue> operator()();
     virtual void setParam(size_t num, AbstractValue* value);
 };
 
-/*
+
 class SubInt32: public AbstractMethod
 {
     Int32Value* left;
     Int32Value* right;
     
 public:
-    virtual AbstractValue* operator()();
+    virtual boost::shared_ptr<AbstractValue> operator()();
     virtual void setParam(size_t num, AbstractValue* value);
 };
-*/
+
+class MulInt32: public AbstractMethod
+{
+    Int32Value* left;
+    Int32Value* right;
+    
+public:
+    virtual boost::shared_ptr<AbstractValue> operator()();
+    virtual void setParam(size_t num, AbstractValue* value);
+};
+
+class DivInt32: public AbstractMethod
+{
+    Int32Value* left;
+    Int32Value* right;
+    
+public:
+    virtual boost::shared_ptr<AbstractValue> operator()();
+    virtual void setParam(size_t num, AbstractValue* value);
+};
+
 
 #endif	/* VALUES_H */
 

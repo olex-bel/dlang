@@ -37,6 +37,8 @@ WS	[ \r\n\t]+
 "="             {   return ASSIGNMENT; }
 "-"             {   return MINUS; }
 "+"             {   return PLUS; }
+"*"             {   return MUL; }
+"/"             {   return DIV; }
 "("             {   return LP; }
 ")"             {   return RP; }
 "'".*"'"        {   

@@ -9,12 +9,13 @@
 #define	METHOD_H
 
 #include <cstddef>
+#include <boost/shared_ptr.hpp>
 
 class AbstractValue;
 
 class AbstractMethod{
 public:
-    virtual AbstractValue* operator()() = 0;
+    virtual boost::shared_ptr<AbstractValue> operator()() = 0;
     virtual void setParam(size_t num, AbstractValue* value) = 0;
 };
 
