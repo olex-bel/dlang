@@ -32,6 +32,8 @@
     <itemPath>lex_table.h</itemPath>
     <itemPath>lexer.h</itemPath>
     <itemPath>method.h</itemPath>
+    <itemPath>number_value.hpp</itemPath>
+    <itemPath>operators.hpp</itemPath>
     <itemPath>struct.l</itemPath>
     <itemPath>struct_def.h</itemPath>
     <itemPath>strutil.cpp</itemPath>

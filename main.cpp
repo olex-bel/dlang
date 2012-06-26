@@ -14,6 +14,7 @@
 #include "struct_def.h"
 #include "strutil.h"
 #include <boost/shared_ptr.hpp>
+#include "number_value.hpp"
 
 int yylval;
 LexemTable* globalLexTable;
@@ -170,7 +171,7 @@ boost::shared_ptr<AbstractValue> prim(bool get)
             
             AbstractType* type = globalTypeTable->prototype("int");
             result = boost::shared_ptr<AbstractValue>(type->create());
-            ((Int32Value*)result.get())->setValue(num);
+            (( NumberValue<int32_t, VINT32>*)result.get())->setValue(num);
             curr_tok = yylex();
         }
             break;

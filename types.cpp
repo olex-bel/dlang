@@ -1,8 +1,10 @@
 #include "types.h"
+#include <stdint.h>
+#include "number_value.hpp"
 
 AbstractValue* Int32Type::create()
 {
-    Int32Value* val = new Int32Value();
+    NumberValue<int32_t, VINT32>* val = new NumberValue<int32_t, VINT32>();
     
     return val;
 }
