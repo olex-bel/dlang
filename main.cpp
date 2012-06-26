@@ -10,7 +10,7 @@
 #include "lex_table.h"
 #include "lexer.h"
 #include "type_table.h"
-#include "ValueTable.h"
+#include "value_table.h"
 #include "struct_def.h"
 #include "strutil.h"
 #include <boost/shared_ptr.hpp>

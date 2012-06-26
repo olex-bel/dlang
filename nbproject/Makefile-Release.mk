@@ -35,12 +35,12 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/ValueTable.o \
 	${OBJECTDIR}/types.o \
 	${OBJECTDIR}/strutil.o \
 	${OBJECTDIR}/lex_table.o \
 	${OBJECTDIR}/lex.yy.o \
 	${OBJECTDIR}/values.o \
+	${OBJECTDIR}/value_table.o \
 	${OBJECTDIR}/type_table.o
 
 
@@ -73,11 +73,6 @@ ${OBJECTDIR}/main.o: main.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
 
-${OBJECTDIR}/ValueTable.o: ValueTable.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/ValueTable.o ValueTable.cpp
-
 ${OBJECTDIR}/types.o: types.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -102,6 +97,11 @@ ${OBJECTDIR}/values.o: values.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/values.o values.cpp
+
+${OBJECTDIR}/value_table.o: value_table.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/value_table.o value_table.cpp
 
 ${OBJECTDIR}/type_table.o: type_table.cpp 
 	${MKDIR} -p ${OBJECTDIR}

@@ -5,7 +5,7 @@
  * Created on 18 Июнь 2012 г., 20:05
  */
 
-#include "ValueTable.h"
+#include "value_table.h"
 
 bool ValueTable::add(std::string name, AbstractType* type)
 {
