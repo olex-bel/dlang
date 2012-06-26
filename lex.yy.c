@@ -502,8 +502,8 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "struct.l"
-#line 4 "struct.l"
+#line 1 "dlang.l"
+#line 4 "dlang.l"
 #include "struct_def.h"
 #include "lex_table.h"
 #include "type_table.h"
@@ -694,7 +694,7 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 13 "struct.l"
+#line 13 "dlang.l"
 
 
 #line 701 "lex.yy.c"
@@ -793,17 +793,17 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 15 "struct.l"
+#line 15 "dlang.l"
 { /* White space, nothing to do */ }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 16 "struct.l"
+#line 16 "dlang.l"
 {   return CLASS; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 17 "struct.l"
+#line 17 "dlang.l"
 {   
                     yylval = VINT32;
                     return TYPE; 
@@ -811,7 +811,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 21 "struct.l"
+#line 21 "dlang.l"
 {   
                     yylval = VSTRING;
                     return TYPE; 
@@ -819,7 +819,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 25 "struct.l"
+#line 25 "dlang.l"
 {
 			yylval = globalLexTable->addId(yylineno, yytext); 
 			return ID; 
@@ -827,7 +827,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 29 "struct.l"
+#line 29 "dlang.l"
 {   
                         yylval = globalLexTable->addNumber(yylineno, yytext); 
                         return INT;
@@ -835,62 +835,62 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 33 "struct.l"
+#line 33 "dlang.l"
 {   return PRINT;   }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 34 "struct.l"
+#line 34 "dlang.l"
 {   return LEFT_CBRACE; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 35 "struct.l"
+#line 35 "dlang.l"
 {   return RIGHT_CBRACE; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 36 "struct.l"
+#line 36 "dlang.l"
 {   return SEMICOLON; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 37 "struct.l"
+#line 37 "dlang.l"
 {   return ASSIGNMENT; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 38 "struct.l"
+#line 38 "dlang.l"
 {   return MINUS; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 39 "struct.l"
+#line 39 "dlang.l"
 {   return PLUS; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 40 "struct.l"
+#line 40 "dlang.l"
 {   return MUL; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 41 "struct.l"
+#line 41 "dlang.l"
 {   return DIV; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 42 "struct.l"
+#line 42 "dlang.l"
 {   return LP; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 43 "struct.l"
+#line 43 "dlang.l"
 {   return RP; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 44 "struct.l"
+#line 44 "dlang.l"
 {   
                         yylval = globalLexTable->addString(yylineno, yytext); 
                         return STRING; 
@@ -898,12 +898,12 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 48 "struct.l"
+#line 48 "dlang.l"
 { /* One line comment, nothing to do */ }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 50 "struct.l"
+#line 50 "dlang.l"
 ECHO;
 	YY_BREAK
 #line 910 "lex.yy.c"
@@ -1916,7 +1916,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 50 "struct.l"
+#line 50 "dlang.l"
 
 
 

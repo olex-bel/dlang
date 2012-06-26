@@ -25,6 +25,7 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>dlang.l</itemPath>
     <itemPath>lex.yy.c</itemPath>
     <itemPath>lex_table.cpp</itemPath>
     <itemPath>lex_table.h</itemPath>
@@ -32,7 +33,6 @@
     <itemPath>method.h</itemPath>
     <itemPath>number_value.hpp</itemPath>
     <itemPath>operators.hpp</itemPath>
-    <itemPath>struct.l</itemPath>
     <itemPath>struct_def.h</itemPath>
     <itemPath>strutil.cpp</itemPath>
     <itemPath>strutil.h</itemPath>

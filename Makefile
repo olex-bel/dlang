@@ -54,7 +54,7 @@ CCADMIN=CCadmin
 build: .build-post
 
 .build-pre:
-	flex struct.l
+	flex dlang.l
 # Add your pre 'build' code here...
 
 .build-post: .build-impl
