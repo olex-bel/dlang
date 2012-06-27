@@ -19,7 +19,7 @@ string trim(const string& str)
   return str.substr(start, end-start+1);
 }
 
-bool str2int (int &i, const string &str, int base)
+bool str2int32(int32_t &i, const string &str, int base)
 {
   const char* s = str.c_str(); 
   char *end;
@@ -29,7 +29,7 @@ bool str2int (int &i, const string &str, int base)
     
   l = strtol(s, &end, base);
 
-  if (errno == ERANGE || l > numeric_limits<int>::max() || l < numeric_limits<int>::min()) {
+  if (errno == ERANGE || l > numeric_limits<int32_t>::max() || l < numeric_limits<int32_t>::min()) {
     return false;
   }
 
@@ -41,3 +41,24 @@ bool str2int (int &i, const string &str, int base)
   return true;
 }
 
+bool str2double(double &i, const string &str)
+{
+  const char* s = str.c_str(); 
+  char *end;
+  double  l;
+  
+  errno = 0;
+    
+  l = strtod(s, &end);
+
+  if (errno == ERANGE ) {
+    return false;
+  }
+
+  if (*s == '\0' || *end != '\0') {
+    return false;
+  }
+
+  i = l;
+  return true;
+}

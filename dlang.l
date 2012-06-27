@@ -6,9 +6,12 @@
 #include "type_table.h"
 %}
 
+DIGIT   [0-9]
 INT     [0-9]+
 ID	[a-zA-Z_][a-zA-Z0-9]*
 WS	[ \r\n\t]+
+EXP     [Ee][\+\-]?{DIGIT}+
+DOUBLE  {DIGIT}+(("."{DIGIT}+({EXP})?)|{EXP})
 
 %%
 
@@ -22,13 +25,21 @@ WS	[ \r\n\t]+
                     yylval = VSTRING;
                     return TYPE; 
                 }
+"float"        {
+                    yylval = VDOUBLE;
+                    return TYPE; 
+                }
+{DOUBLE}        {
+                    yylval = globalLexTable->addNumber(yylineno, yytext); 
+                    return DOUBLE;
+                }
 {ID}		{
-			yylval = globalLexTable->addId(yylineno, yytext); 
-			return ID; 
+                    yylval = globalLexTable->addId(yylineno, yytext); 
+                    return ID; 
 		}
 {INT}           {   
-                        yylval = globalLexTable->addNumber(yylineno, yytext); 
-                        return INT;
+                    yylval = globalLexTable->addNumber(yylineno, yytext); 
+                    return INT;
                 }
 "!"             {   return PRINT;   }
 "{"             {   return LEFT_CBRACE; }

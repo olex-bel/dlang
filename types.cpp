@@ -9,6 +9,13 @@ AbstractValue* Int32Type::create()
     return val;
 }
 
+AbstractValue* DoubleType::create()
+{
+    NumberValue<double, VDOUBLE>* val = new NumberValue<double, VDOUBLE>();
+    
+    return val;
+}
+
 AbstractValue* StringType::create()
 {
     StringValue* val = new StringValue();

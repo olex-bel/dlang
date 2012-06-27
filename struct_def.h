@@ -13,6 +13,7 @@ enum {
     TYPE,
     CLASS,
     INT,
+    DOUBLE,
     STRING,
     LEFT_CBRACE,
     RIGHT_CBRACE,

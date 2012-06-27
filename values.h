@@ -15,7 +15,7 @@
 #include <string>
 #include "method.h"
 
-enum ValueType { VINT32, VSTRING };
+enum ValueType { VINT32, VSTRING, VDOUBLE };
 
 class AbstractValue {
 protected:

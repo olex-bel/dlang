@@ -166,12 +166,25 @@ boost::shared_ptr<AbstractValue> prim(bool get)
         {
             int32_t num;
             
-            if ( !str2int(num, (*globalLexTable)[yylval].text) )
+            if ( !str2int32(num, (*globalLexTable)[yylval].text) )
                 throw "Error int convertion";
             
             AbstractType* type = globalTypeTable->prototype("int");
             result = boost::shared_ptr<AbstractValue>(type->create());
             (( NumberValue<int32_t, VINT32>*)result.get())->setValue(num);
+            curr_tok = yylex();
+        }
+            break;
+        case DOUBLE:
+        {
+            double num;
+            
+            if ( !str2double(num, (*globalLexTable)[yylval].text) )
+                throw "Error double convertion";
+            
+            AbstractType* type = globalTypeTable->prototype("float");
+            result = boost::shared_ptr<AbstractValue>(type->create());
+            (( NumberValue<double, VDOUBLE>*)result.get())->setValue(num);
             curr_tok = yylex();
         }
             break;

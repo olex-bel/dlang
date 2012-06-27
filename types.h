@@ -21,6 +21,12 @@ public:
     virtual AbstractValue* create();
 };
 
+class DoubleType: public AbstractType
+{
+public:
+    virtual AbstractValue* create();
+};
+
 class StringType: public AbstractType
 {
 public:

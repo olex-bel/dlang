@@ -5,6 +5,7 @@ TypeTable::TypeTable()
 {
     table["int"] = new Int32Type();
     table["string"] = new StringType();
+    table["float"] = new DoubleType();
 }
 
 AbstractType* TypeTable::prototype(std::string name)
